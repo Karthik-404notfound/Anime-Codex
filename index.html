@@ -4,25 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#11111a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>Anime Codex — Anime & Manga Archive</title>
 <style>
 :root{color-scheme:dark;--bg:#101018;--panel:#191925;--panel2:#222233;--line:#343448;--text:#f4f2fb;--muted:#aaa8bd;--accent:#b69cff;--accent2:#8de0cf;--danger:#ff8f9a}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#24203a 0,#101018 55%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
-.wrap{max-width:760px;margin:auto;padding:24px 16px 48px}.brand{text-align:center;padding:20px 0 22px}.brand h1{font-size:42px;letter-spacing:.18em;margin:0;font-weight:850}.brand p{color:var(--muted);font-size:11px;letter-spacing:.2em;margin:7px 0 0}
+.wrap{max-width:760px;margin:auto;padding:24px 16px 48px}.brand{text-align:center;padding:20px 0 22px}.brand h1{font-size:30px;letter-spacing:.10em;margin:0;font-weight:850}.brand p{color:var(--muted);font-size:11px;letter-spacing:.2em;margin:7px 0 0}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 18px}.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:13px;border-radius:14px;font-weight:700;font-size:15px}.tab.active{background:var(--accent);color:#171323;border-color:var(--accent)}
 .panel{background:rgba(25,25,37,.94);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px}.topline h2{font-size:19px;margin:0}.count{color:var(--muted);font-size:12px}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.controls input,.controls select,.field input,.field select,.field textarea{width:100%;background:#11111a;border:1px solid var(--line);border-radius:11px;padding:11px;color:var(--text);font:inherit;min-width:0}.controls input{grid-column:1/-1}
 .filters{display:flex;gap:7px;overflow:auto;padding:12px 0 3px}.chip{white-space:nowrap;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:7px 11px;font-size:12px}.chip.active{background:#332b49;color:#e8dcff;border-color:#8066b4}
 .entry{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}.entry:last-child{border-bottom:0;padding-bottom:2px}.entrymain{flex:1;min-width:0}.entry h3{font-size:16px;margin:0 0 5px;overflow-wrap:anywhere}.meta{color:var(--muted);font-size:12px;line-height:1.6}.pill{display:inline-block;padding:3px 8px;border-radius:99px;background:#302a42;color:#d9caff;font-size:11px;margin:2px 4px 0 0}.actions{display:flex;gap:6px}.iconbtn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:7px 9px;font-size:12px}
-.addbtn,.primary{background:var(--accent);color:#171323;border:0;border-radius:12px;padding:11px 14px;font-weight:800}.empty{text-align:center;padding:28px 12px;color:var(--muted)}.empty strong{display:block;color:var(--text);font-size:15px;margin-bottom:5px}
+.addbtn,.primary{background:var(--accent);color:#171323;border:0;border-radius:12px;padding:11px 14px;font-weight:800}.quickrow{display:grid;grid-template-columns:1fr 1fr auto;gap:9px;margin-top:12px}.quickrow select{min-width:0;width:100%;background:#11111a;border:1px solid var(--line);border-radius:11px;padding:11px;color:var(--text);font:inherit}.quickrow button:disabled{opacity:.45}.empty{text-align:center;padding:28px 12px;color:var(--muted)}.empty strong{display:block;color:var(--text);font-size:15px;margin-bottom:5px}
 #formPanel{display:none}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{min-width:0}.field.full{grid-column:1/-1}.field label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px}.field textarea{resize:vertical;min-height:66px}.formactions{display:flex;gap:9px;justify-content:flex-end;margin-top:14px}.secondary{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 14px}.privacy{color:var(--muted);font-size:11px;line-height:1.5;text-align:center;padding:18px 12px}
-@media(max-width:460px){.wrap{padding:14px 12px 36px}.brand h1{font-size:36px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.controls{grid-template-columns:1fr}.controls input{grid-column:auto}.entry{gap:8px}.actions{flex-direction:column}}
+@media(max-width:460px){.wrap{padding:14px 12px 36px}.brand h1{font-size:28px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.controls{grid-template-columns:1fr}.controls input{grid-column:auto}.quickrow{grid-template-columns:1fr}.entry{gap:8px}.actions{flex-direction:column}}
 </style>
-
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
-<link rel="apple-touch-icon" href="./icons/icon-192.png">
-<script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
 </head>
 <body>
 <div class="wrap">
@@ -40,6 +38,14 @@
 <div class="filters" id="quickFilters"></div>
 <div id="entries"></div>
 </section>
+<section class="panel" id="quickUpdatePanel">
+<div class="topline"><h2>Quick Update</h2><span class="count">Change a title's status</span></div>
+<div class="quickrow">
+<select id="quickTitle" aria-label="Choose a title"><option value="">Choose a title…</option></select>
+<select id="quickStatus" aria-label="Choose new status"></select>
+<button class="primary" id="quickSave" type="button" disabled>Update</button>
+</div>
+</section>
 <section class="panel" id="formPanel">
 <div class="topline"><h2 id="formTitle">Add a title</h2><span class="count">Library entry</span></div>
 <form id="entryForm">
@@ -54,8 +60,13 @@
 <div class="formactions"><button type="button" class="secondary" id="cancel">Cancel</button><button class="primary" type="submit">Save entry</button></div>
 </form>
 </section>
-<div style="display:flex;justify-content:center"><button class="addbtn" id="add">＋ Add a title</button></div>
-<p class="privacy">Anime Codex stores this list in this browser on this device. It is not synced to ChatGPT or other devices. Export a backup regularly.</p>
+<div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
+<button class="addbtn" id="add">＋ Add a title</button>
+<button class="secondary" id="exportData" type="button">Export backup</button>
+<button class="secondary" id="importData" type="button">Import backup</button>
+<input id="importFile" type="file" accept="application/json,.json" hidden>
+</div>
+<p class="privacy">Anime Codex stores this list in this browser on this device. It is not synced to ChatGPT or other devices. Use Export backup to keep a copy of your library.</p>
 </div>
 <script>
 (()=>{
@@ -66,6 +77,24 @@ const statuses=['All statuses','Watching','Reading','Completed','On Hold','Dropp
 let tab='anime',items=[],editing=null,quick='All';
 try{items=JSON.parse(localStorage.getItem('karthy-library-v1')||'[]')}catch(e){items=[]}
 const save=()=>localStorage.setItem('karthy-library-v1',JSON.stringify(items));
+$('exportData').onclick=()=>{
+ const blob=new Blob([JSON.stringify({app:'Anime Codex',version:1,items},null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='anime-codex-backup.json';a.click();URL.revokeObjectURL(url);
+};
+$('importData').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+  const parsed=JSON.parse(await file.text());
+  const incoming=Array.isArray(parsed)?parsed:parsed.items;
+  if(!Array.isArray(incoming)||!incoming.every(x=>x&&['anime','manga'].includes(x.type)&&typeof x.title==='string'))throw new Error('Invalid backup');
+  const merged=new Map(items.map(x=>[String(x.id),x]));
+  incoming.forEach(x=>merged.set(String(x.id||`${x.type}-${x.title}`),{...x,id:String(x.id||`${x.type}-${x.title}`)}));
+  items=[...merged.values()];save();configure();alert(`Imported ${incoming.length} entries. Existing entries with different IDs were preserved.`);
+ }catch(err){alert('That file does not look like an Anime Codex backup.');}
+ e.target.value='';
+};
 const isAnime=()=>tab==='anime';
 function fillSelect(el,arr,selected){el.innerHTML=arr.map(x=>`<option>${x}</option>`).join('');if(selected)el.value=selected}
 function configure(){
@@ -85,6 +114,20 @@ $('count').textContent=`${list.length} title${list.length===1?'':'s'}`;
 const quicks=isAnime()?['All','Watching','Completed','On Hold','Plan to Watch']:['All','Reading','Completed','On Hold','Plan to Read'];
 $('quickFilters').innerHTML=quicks.map(q=>`<button class="chip ${quick===q?'active':''}" data-q="${q}">${q}</button>`).join('');
 $('entries').innerHTML=filtered.length?filtered.sort((a,b)=>a.title.localeCompare(b.title)).map(x=>`<article class="entry"><div class="entrymain"><h3>${esc(x.title)}</h3><div class="meta"><span class="pill">${esc(x.category)}</span><span class="pill">${esc(x.status)}</span><br>${x.progress?`${isAnime()?'Episode':'Chapter'}: ${esc(x.progress)}${x.total?' / '+esc(x.total):''}`:'Progress not set'}${x.notes?'<br>'+esc(x.notes):''}</div></div><div class="actions"><button class="iconbtn" data-edit="${x.id}" aria-label="Edit ${esc(x.title)}">Edit</button><button class="iconbtn" data-delete="${x.id}" aria-label="Delete ${esc(x.title)}">Delete</button></div></article>`).join(''):'<div class="empty"><strong>No titles here yet</strong>Add something to start building your archive.</div>';
+ refreshQuickUpdate();
+}
+function refreshQuickUpdate(){
+ const titleSelect=$('quickTitle'),statusSelect=$('quickStatus'),previous=titleSelect.value;
+ titleSelect.innerHTML='<option value="">Choose a title…</option>';
+ items.filter(x=>x.type===tab).sort((a,b)=>a.title.localeCompare(b.title)).forEach(x=>{
+  const option=document.createElement('option');option.value=String(x.id);option.textContent=`${x.title} — ${x.status}`;titleSelect.appendChild(option);
+ });
+ if([...titleSelect.options].some(o=>o.value===previous))titleSelect.value=previous;
+ const choices=isAnime()?['Watching','Completed','On Hold','Dropped','Plan to Watch']:['Reading','Completed','On Hold','Dropped','Plan to Read'];
+ const current=items.find(x=>String(x.id)===titleSelect.value);
+ statusSelect.innerHTML=choices.map(x=>`<option>${x}</option>`).join('');
+ if(current&&choices.includes(current.status))statusSelect.value=current.status;
+ $('quickSave').disabled=!titleSelect.value;
 }
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function openForm(item){
@@ -96,12 +139,18 @@ $('formPanel').style.display='block';$('add').style.display='none';$('title').fo
 function closeForm(){$('formPanel').style.display='none';$('add').style.display='block';$('entryForm').reset();editing=null}
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;document.querySelectorAll('.tab').forEach(z=>z.classList.toggle('active',z===b));configure();closeForm()}));
 $('add').onclick=()=>openForm();$('cancel').onclick=closeForm;
+ $('quickTitle').onchange=refreshQuickUpdate;
+ $('quickSave').onclick=()=>{
+  const item=items.find(x=>String(x.id)===$('quickTitle').value);
+  if(!item)return;
+  item.status=$('quickStatus').value;save();render();
+ };
 $('search').oninput=render;$('genreFilter').onchange=()=>{quick='All';render()};$('statusFilter').onchange=()=>{quick='All';render()};
 $('quickFilters').onclick=e=>{const b=e.target.closest('[data-q]');if(b){quick=b.dataset.q;render()}};
 $('entries').onclick=e=>{
 const edit=e.target.closest('[data-edit]'),del=e.target.closest('[data-delete]');
 if(edit){const item=items.find(x=>x.id===edit.dataset.edit);if(item){tab=item.type;document.querySelectorAll('.tab').forEach(z=>z.classList.toggle('active',z.dataset.tab===tab));configure();openForm(item)}}
-if(del){const item=items.find(x=>x.id===del.dataset.delete);if(item&&confirm(`Delete "${item.title}" from KARTHY?`)){items=items.filter(x=>x.id!==item.id);save();render()}}
+if(del){const item=items.find(x=>x.id===del.dataset.delete);if(item&&confirm(`Delete "${item.title}" from Anime Codex?`)){items=items.filter(x=>x.id!==item.id);save();render()}}
 };
 $('entryForm').onsubmit=e=>{
 e.preventDefault();const data={id:editing||String(Date.now()),type:tab,title:$('title').value.trim(),category:$('category').value,status:$('status').value,progress:$('progress').value.trim(),total:$('total').value.trim(),notes:$('notes').value.trim()};
@@ -110,7 +159,10 @@ if(editing){const i=items.findIndex(x=>x.id===editing);if(i>=0)items[i]=data}els
 save();closeForm();render();
 };
 configure();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
 })();
 </script>
 </body>
-</html>
+  </html>
