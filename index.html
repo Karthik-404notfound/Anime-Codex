@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#11111a">
+<title>Anime Codex — Anime & Manga Archive</title>
+<style>
+:root{color-scheme:dark;--bg:#101018;--panel:#191925;--panel2:#222233;--line:#343448;--text:#f4f2fb;--muted:#aaa8bd;--accent:#b69cff;--accent2:#8de0cf;--danger:#ff8f9a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#24203a 0,#101018 55%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.wrap{max-width:760px;margin:auto;padding:24px 16px 48px}.brand{text-align:center;padding:20px 0 22px}.brand h1{font-size:42px;letter-spacing:.18em;margin:0;font-weight:850}.brand p{color:var(--muted);font-size:11px;letter-spacing:.2em;margin:7px 0 0}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 18px}.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:13px;border-radius:14px;font-weight:700;font-size:15px}.tab.active{background:var(--accent);color:#171323;border-color:var(--accent)}
+.panel{background:rgba(25,25,37,.94);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px}.topline h2{font-size:19px;margin:0}.count{color:var(--muted);font-size:12px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.controls input,.controls select,.field input,.field select,.field textarea{width:100%;background:#11111a;border:1px solid var(--line);border-radius:11px;padding:11px;color:var(--text);font:inherit;min-width:0}.controls input{grid-column:1/-1}
+.filters{display:flex;gap:7px;overflow:auto;padding:12px 0 3px}.chip{white-space:nowrap;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:7px 11px;font-size:12px}.chip.active{background:#332b49;color:#e8dcff;border-color:#8066b4}
+.entry{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}.entry:last-child{border-bottom:0;padding-bottom:2px}.entrymain{flex:1;min-width:0}.entry h3{font-size:16px;margin:0 0 5px;overflow-wrap:anywhere}.meta{color:var(--muted);font-size:12px;line-height:1.6}.pill{display:inline-block;padding:3px 8px;border-radius:99px;background:#302a42;color:#d9caff;font-size:11px;margin:2px 4px 0 0}.actions{display:flex;gap:6px}.iconbtn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:7px 9px;font-size:12px}
+.addbtn,.primary{background:var(--accent);color:#171323;border:0;border-radius:12px;padding:11px 14px;font-weight:800}.empty{text-align:center;padding:28px 12px;color:var(--muted)}.empty strong{display:block;color:var(--text);font-size:15px;margin-bottom:5px}
+#formPanel{display:none}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{min-width:0}.field.full{grid-column:1/-1}.field label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px}.field textarea{resize:vertical;min-height:66px}.formactions{display:flex;gap:9px;justify-content:flex-end;margin-top:14px}.secondary{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 14px}.privacy{color:var(--muted);font-size:11px;line-height:1.5;text-align:center;padding:18px 12px}
+@media(max-width:460px){.wrap{padding:14px 12px 36px}.brand h1{font-size:36px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.controls{grid-template-columns:1fr}.controls input{grid-column:auto}.entry{gap:8px}.actions{flex-direction:column}}
+</style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
+</head>
+<body>
+<div class="wrap">
+<header class="brand"><h1>ANIME CODEX</h1><p>YOUR PERSONAL ANIME & MANGA ARCHIVE</p></header>
+<nav class="tabs" aria-label="Library">
+<button class="tab active" data-tab="anime">Anime</button><button class="tab" data-tab="manga">Manga</button>
+</nav>
+<section class="panel">
+<div class="topline"><h2 id="sectionTitle">Anime library</h2><span class="count" id="count">0 titles</span></div>
+<div class="controls">
+<input id="search" type="search" placeholder="Search your library…" aria-label="Search titles">
+<select id="genreFilter" aria-label="Filter by genre"></select>
+<select id="statusFilter" aria-label="Filter by status"></select>
+</div>
+<div class="filters" id="quickFilters"></div>
+<div id="entries"></div>
+</section>
+<section class="panel" id="formPanel">
+<div class="topline"><h2 id="formTitle">Add a title</h2><span class="count">Library entry</span></div>
+<form id="entryForm">
+<div class="formgrid">
+<div class="field full"><label for="title">Title *</label><input id="title" required maxlength="100" placeholder="Enter anime or manga title"></div>
+<div class="field"><label for="category" id="categoryLabel">Genre</label><select id="category"></select></div>
+<div class="field"><label for="status">Status</label><select id="status"></select></div>
+<div class="field"><label for="progress" id="progressLabel">Episode progress</label><input id="progress" maxlength="30" placeholder="e.g. 68 / 24"></div>
+<div class="field"><label for="total">Total (optional)</label><input id="total" maxlength="30" placeholder="e.g. 24"></div>
+<div class="field full"><label for="notes">Notes (optional)</label><textarea id="notes" maxlength="500" placeholder="Anything you want to remember…"></textarea></div>
+</div>
+<div class="formactions"><button type="button" class="secondary" id="cancel">Cancel</button><button class="primary" type="submit">Save entry</button></div>
+</form>
+</section>
+<div style="display:flex;justify-content:center"><button class="addbtn" id="add">＋ Add a title</button></div>
+<p class="privacy">Anime Codex stores this list in this browser on this device. It is not synced to ChatGPT or other devices. Export a backup regularly.</p>
+</div>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const genres=['All genres','Action','Adventure','Comedy','Drama','Fantasy','Isekai','Mystery','Romance','Sci-Fi','Slice of Life','Sports','Thriller','Other'];
+const formats=['All formats','Manga','Manhwa','Manhua','Webtoon','Other'];
+const statuses=['All statuses','Watching','Reading','Completed','On Hold','Dropped','Plan to Watch','Plan to Read'];
+let tab='anime',items=[],editing=null,quick='All';
+try{items=JSON.parse(localStorage.getItem('karthy-library-v1')||'[]')}catch(e){items=[]}
+const save=()=>localStorage.setItem('karthy-library-v1',JSON.stringify(items));
+const isAnime=()=>tab==='anime';
+function fillSelect(el,arr,selected){el.innerHTML=arr.map(x=>`<option>${x}</option>`).join('');if(selected)el.value=selected}
+function configure(){
+$('sectionTitle').textContent=isAnime()?'Anime library':'Manga library';
+$('progressLabel').textContent=isAnime()?'Episode progress':'Chapter progress';
+$('categoryLabel').textContent=isAnime()?'Genre':'Format';
+fillSelect($('genreFilter'),isAnime()?genres:formats);
+fillSelect($('category'),(isAnime()?genres:formats).slice(1));
+fillSelect($('statusFilter'),statuses);
+$('status').innerHTML=(isAnime()?['Watching','Completed','On Hold','Dropped','Plan to Watch']:['Reading','Completed','On Hold','Dropped','Plan to Read']).map(x=>`<option>${x}</option>`).join('');
+$('search').value='';quick='All';render();
+}
+function render(){
+const list=items.filter(x=>x.type===tab);
+let filtered=list.filter(x=>(x.title.toLowerCase().includes($('search').value.toLowerCase()))&&($('genreFilter').value==='All genres'||$('genreFilter').value==='All formats'||x.category===$('genreFilter').value)&&($('statusFilter').value==='All statuses'||x.status===$('statusFilter').value)&&(quick==='All'||x.status===quick));
+$('count').textContent=`${list.length} title${list.length===1?'':'s'}`;
+const quicks=isAnime()?['All','Watching','Completed','On Hold','Plan to Watch']:['All','Reading','Completed','On Hold','Plan to Read'];
+$('quickFilters').innerHTML=quicks.map(q=>`<button class="chip ${quick===q?'active':''}" data-q="${q}">${q}</button>`).join('');
+$('entries').innerHTML=filtered.length?filtered.sort((a,b)=>a.title.localeCompare(b.title)).map(x=>`<article class="entry"><div class="entrymain"><h3>${esc(x.title)}</h3><div class="meta"><span class="pill">${esc(x.category)}</span><span class="pill">${esc(x.status)}</span><br>${x.progress?`${isAnime()?'Episode':'Chapter'}: ${esc(x.progress)}${x.total?' / '+esc(x.total):''}`:'Progress not set'}${x.notes?'<br>'+esc(x.notes):''}</div></div><div class="actions"><button class="iconbtn" data-edit="${x.id}" aria-label="Edit ${esc(x.title)}">Edit</button><button class="iconbtn" data-delete="${x.id}" aria-label="Delete ${esc(x.title)}">Delete</button></div></article>`).join(''):'<div class="empty"><strong>No titles here yet</strong>Add something to start building your archive.</div>';
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function openForm(item){
+editing=item?.id??null;$('formTitle').textContent=item?'Edit title':'Add a title';
+$('title').value=item?.title||'';$('category').value=item?.category||(isAnime()?'Other':'Manga');$('status').value=item?.status||(isAnime()?'Plan to Watch':'Plan to Read');
+$('progress').value=item?.progress||'';$('total').value=item?.total||'';$('notes').value=item?.notes||'';
+$('formPanel').style.display='block';$('add').style.display='none';$('title').focus();$('formPanel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeForm(){$('formPanel').style.display='none';$('add').style.display='block';$('entryForm').reset();editing=null}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;document.querySelectorAll('.tab').forEach(z=>z.classList.toggle('active',z===b));configure();closeForm()}));
+$('add').onclick=()=>openForm();$('cancel').onclick=closeForm;
+$('search').oninput=render;$('genreFilter').onchange=()=>{quick='All';render()};$('statusFilter').onchange=()=>{quick='All';render()};
+$('quickFilters').onclick=e=>{const b=e.target.closest('[data-q]');if(b){quick=b.dataset.q;render()}};
+$('entries').onclick=e=>{
+const edit=e.target.closest('[data-edit]'),del=e.target.closest('[data-delete]');
+if(edit){const item=items.find(x=>x.id===edit.dataset.edit);if(item){tab=item.type;document.querySelectorAll('.tab').forEach(z=>z.classList.toggle('active',z.dataset.tab===tab));configure();openForm(item)}}
+if(del){const item=items.find(x=>x.id===del.dataset.delete);if(item&&confirm(`Delete "${item.title}" from KARTHY?`)){items=items.filter(x=>x.id!==item.id);save();render()}}
+};
+$('entryForm').onsubmit=e=>{
+e.preventDefault();const data={id:editing||String(Date.now()),type:tab,title:$('title').value.trim(),category:$('category').value,status:$('status').value,progress:$('progress').value.trim(),total:$('total').value.trim(),notes:$('notes').value.trim()};
+if(!data.title)return;
+if(editing){const i=items.findIndex(x=>x.id===editing);if(i>=0)items[i]=data}else items.push(data);
+save();closeForm();render();
+};
+configure();
+})();
+</script>
+</body>
+</html>
